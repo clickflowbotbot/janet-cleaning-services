@@ -150,13 +150,15 @@ h2 {
 #hero {
     position: relative;
     min-height: 100vh;
-    background-image: url('images/hero.png');
+    background-image: url('https://ytttxtzoazhogljousvc.supabase.co/storage/v1/object/public/site-assets/0658b60b-edbc-4a1b-b641-c5ea4b292ff7/hero.png');
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+    margin: 0;
 }
 
 #hero::before {
@@ -280,13 +282,15 @@ h2 {
 #cta-banner {
     position: relative;
     min-height: 60vh;
-    background-image: url('images/hero.png');
+    background-image: url('https://ytttxtzoazhogljousvc.supabase.co/storage/v1/object/public/site-assets/0658b60b-edbc-4a1b-b641-c5ea4b292ff7/hero.png');
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+    margin: 0;
 }
 
 #cta-banner::before {
