@@ -1,59 +1,56 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Mobile menu toggle
+    // Mobile Navigation Toggle
     const hamburger = document.querySelector('.hamburger-menu');
     const navLinks = document.querySelector('.nav-links');
 
     hamburger.addEventListener('click', () => {
         navLinks.classList.toggle('active');
-        hamburger.classList.toggle('active');
+        const spans = hamburger.querySelectorAll('span');
+        spans[0].style.transform = navLinks.classList.contains('active') ? 'rotate(45deg) translate(5px, 6px)' : 'none';
+        spans[1].style.opacity = navLinks.classList.contains('active') ? '0' : '1';
+        spans[2].style.transform = navLinks.classList.contains('active') ? 'rotate(-45deg) translate(5px, -6px)' : 'none';
     });
 
-    // Close mobile menu when a link is clicked
+    // Close nav on link click
     document.querySelectorAll('.nav-links a').forEach(link => {
         link.addEventListener('click', () => {
-            if (navLinks.classList.contains('active')) {
-                navLinks.classList.remove('active');
-                hamburger.classList.remove('active');
-            }
+            navLinks.classList.remove('active');
         });
     });
 
-    // Smooth scroll for anchor links
+    // Intersection Observer for animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const appearanceObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in-section').forEach(el => {
+        appearanceObserver.observe(el);
+    });
+
+    // Smooth Navbar scroll offset calibration
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                e.preventDefault();
+                const headerOffset = document.querySelector('.navbar').offsetHeight;
+                const elementPosition = target.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            const navbarHeight = document.querySelector('.navbar').offsetHeight;
-
-            if (targetElement) {
                 window.scrollTo({
-                    top: targetElement.offsetTop - navbarHeight + 1, // +1 to prevent cutting off if exact
+                    top: offsetPosition,
                     behavior: 'smooth'
                 });
             }
         });
     });
-
-    // Fade-in on scroll animation
-    const fadeElements = document.querySelectorAll('.fade-in-section');
-
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                // Optionally, stop observing once visible
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    fadeElements.forEach(el => observer.observe(el));
 });
